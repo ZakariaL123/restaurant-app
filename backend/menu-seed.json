@@ -1,0 +1,16 @@
+[
+  {
+    "id": "chicken-tagine",
+    "name": "Chicken Tagine",
+    "description": "Chicken with preserved lemon, olives, and Moroccan spices.",
+    "priceMinor": 6500,
+    "isAvailable": true
+  },
+  {
+    "id": "mint-tea",
+    "name": "Moroccan Mint Tea",
+    "description": "Green tea brewed with fresh mint.",
+    "priceMinor": 1500,
+    "isAvailable": false
+  }
+]

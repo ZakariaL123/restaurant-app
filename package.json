@@ -1,0 +1,24 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "npm --prefix frontend run build",
+    "start": "node backend/server.mjs",
+    "setup:data": "node backend/prepare-data.mjs",
+    "setup:orders": "node backend/prepare-orders.mjs",
+    "setup:photos": "node backend/prepare-photos.mjs",
+    "setup:staff": "node backend/prepare-staff.mjs",
+    "test": "node --test backend/*.test.mjs && npm --prefix frontend test",
+    "verify:neon": "node backend/verify.mjs"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.1171.0",
+    "@hono/node-server": "^2.1.9",
+    "@neon/config": "^1.14.3",
+    "@neon/env": "^2.1.6",
+    "@neon/realtime": "^0.2.1",
+    "@neondatabase/serverless": "^1.2.1",
+    "hono": "^4.13.19",
+    "jose": "^6.2.18",
+    "ws": "^8.23.0"
+  }
+}
