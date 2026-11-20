@@ -1,6 +1,17 @@
-# Restaurant App
+# LBALDI — Moroccan Restaurant
 
-A Vue and TypeScript demo for browsing a Moroccan restaurant menu and building a cart. The Node backend reads dishes from Neon Postgres, serves a text menu from a private Neon Object Storage bucket, and streams updates from Neon Realtime. The cart resets when you refresh.
+LBALDI is a full-stack restaurant app built with Vue, TypeScript, Node.js, and Neon Postgres. Customers can browse a Moroccan menu, place an order, and follow it from the kitchen to ready.
+
+![LBALDI homepage with a Moroccan food gallery and a link to the menu](docs/lbaldi-homepage.jpg)
+
+## Features
+
+- **Customers:** Browse dishes, adjust quantities in the cart, and track orders in **My orders**.
+- **Staff:** Move orders from **New** to **Working on it** to **Done**, edit dishes, upload photos, and mark dishes unavailable.
+- **Managers:** Invite staff and remove their access from the dashboard.
+- **Languages:** Switch between Arabic, English, and French. The layout reads right to left in Arabic.
+
+The menu uses Neon Realtime for updates, and the downloadable English menu is stored in Neon Object Storage. The cart resets on refresh; orders placed while signed in remain in **My orders**.
 
 ## Run locally
 
@@ -18,7 +29,7 @@ npm run build
 npm start
 ```
 
-Open `http://127.0.0.1:4173/menu`. `neon deploy` writes server credentials to an ignored `.env.local` or existing `.env`. `npm run setup:data` inserts missing starter dishes and publishes a fresh menu snapshot to the private `assets` bucket.
+Open `http://127.0.0.1:4173/`. `neon deploy` writes server credentials to an ignored `.env.local` or existing `.env`. `npm run setup:data` inserts missing starter dishes and publishes a fresh menu snapshot to the private `assets` bucket.
 
 For frontend development, leave the backend running and use `npm --prefix frontend run dev` in another terminal. Vite proxies requests under `/api` to the Node server.
 
@@ -32,9 +43,9 @@ The free web service may take about a minute to wake up after being idle. See [R
 
 ## Staff orders and languages
 
-Everyone signs in at `/sign-in`. Enable Better Auth on the Neon branch the app uses, then put its Base URL in the root `.env.local` as `NEON_AUTH_BASE_URL` and in `frontend/.env.local` as `VITE_NEON_AUTH_URL`.
+Everyone signs in at `/sign-in`. Enable Better Auth on the Neon branch your app uses and copy its Base URL. Set `NEON_AUTH_BASE_URL` in the root environment file Neon already populated (`.env` or `.env.local`). Set `VITE_NEON_AUTH_URL` to the same URL in `frontend/.env.local`, then rebuild the frontend.
 
-Set `MANAGER_USER_IDS` in the root `.env.local` to the Neon Auth user ID of the restaurant manager, then restart the backend. An initial manager needs to be set this way; staff invitations never grant manager access. Existing IDs in `STAFF_USER_IDS` still work and are managed in that file.
+To set up the first manager, add their Neon Auth user ID to `MANAGER_USER_IDS` in that same root environment file, then restart the backend. Existing staff IDs in `STAFF_USER_IDS` still work. Invitations grant staff access only.
 
 Managers open **Staff orders → Manage staff access**, enter an email, and share the private invitation link. The recipient signs in using that email or creates their own account, then accepts the invitation. Managers can remove that staff permission from the same page. Run `npm run setup:staff` once per database branch to create the invitation table.
 
