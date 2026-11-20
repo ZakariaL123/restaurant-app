@@ -1,4 +1,4 @@
-# LBALDI — Moroccan Restaurant
+# LBALDI - Moroccan Restaurant
 
 LBALDI is a full-stack restaurant app built with Vue, TypeScript, Node.js, and Neon Postgres. Customers can browse a Moroccan menu, place an order, and follow it from the kitchen to ready.
 
