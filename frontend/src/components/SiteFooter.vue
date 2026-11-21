@@ -11,7 +11,12 @@ const { t } = useLanguage()
     <div class="footer-inner">
       <div class="footer-brand">
         <RouterLink :to="{ name: 'home' }" :aria-label="t('brand')"><LbaldiLogo /></RouterLink>
-        <p>{{ t('heroSubtitle') }}</p>
+        <div>
+          <p>{{ t('heroSubtitle') }}</p>
+          <p class="footer-credit">
+            <bdi>© 2026 Zakaria · <a href="https://github.com/ZakariaL123">@ZakariaL123</a></bdi>
+          </p>
+        </div>
       </div>
       <nav :aria-label="t('footerNavigation')">
         <RouterLink :to="{ name: 'menu' }">{{ t('menu') }}</RouterLink>
@@ -47,7 +52,7 @@ const { t } = useLanguage()
   align-items: center;
   gap: 16px;
 }
-.footer-brand a {
+.footer-brand > a {
   inline-size: 76px;
   flex: 0 0 auto;
 }
@@ -55,6 +60,12 @@ const { t } = useLanguage()
   margin: 0;
   max-inline-size: 24ch;
   font-weight: 650;
+}
+.footer-brand .footer-credit {
+  margin-block-start: 6px;
+  color: #efdab0;
+  font-size: 0.82rem;
+  font-weight: 500;
 }
 nav {
   display: flex;
