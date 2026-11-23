@@ -23,7 +23,7 @@ const { t } = useLanguage()
         <RouterLink :to="{ name: 'home', hash: '#our-story' }">{{ t('ourStory') }}</RouterLink>
         <RouterLink :to="{ name: 'my-orders' }">{{ t('myOrders') }}</RouterLink>
       </nav>
-      <RouterLink class="button button--cream" :to="{ name: 'menu' }">
+      <RouterLink class="button button--order" :to="{ name: 'menu' }">
         {{ t('orderOnline') }}
       </RouterLink>
     </div>
@@ -63,7 +63,7 @@ const { t } = useLanguage()
 }
 .footer-brand .footer-credit {
   margin-block-start: 6px;
-  color: var(--lbaldi-gold);
+  color: var(--on-green-muted);
   font-size: 0.82rem;
   font-weight: 500;
 }
@@ -79,8 +79,8 @@ a:not(.button) {
 }
 .footer-band {
   padding: 12px var(--gutter);
-  border-block-start: 1px solid var(--lbaldi-green);
-  color: var(--lbaldi-gold);
+  border-block-start: 1px solid var(--lbaldi-cream-line);
+  color: var(--on-green-muted);
   font-size: 0.875rem;
   font-weight: 650;
   text-align: center;

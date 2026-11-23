@@ -52,15 +52,15 @@ const date = computed(() =>
   display: inline-block;
   padding: 3px 8px;
   border-radius: 999px;
-  background: #f0f0f0;
-  color: #2f2f2f;
+  background: var(--status-new-surface);
+  color: var(--status-new-ink);
 }
 .status-badge[data-status='working'] {
-  background: #fff1cf;
-  color: #654000;
+  background: var(--status-working-surface);
+  color: var(--status-working-ink);
 }
 .status-badge[data-status='done'] {
-  background: #dcefe1;
-  color: #174b2a;
+  background: var(--status-done-surface);
+  color: var(--status-done-ink);
 }
 </style>

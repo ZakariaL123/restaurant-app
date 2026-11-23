@@ -6,10 +6,6 @@ const frames = {
   tagine: '92 542 303 223',
   couscous: '433 576 263 186',
   tea: '754 540 268 211',
-  kefta: '1080 604 250 153',
-  favouriteTagine: '434 888 291 152',
-  favouriteCouscous: '755 888 291 152',
-  favouriteKefta: '1076 888 294 152',
 } as const
 
 defineProps<{ frame: keyof typeof frames }>()

@@ -92,7 +92,7 @@ const { language, t } = useLanguage()
           }}</RouterLink>
         </p>
         <button
-          class="button"
+          class="button button--order"
           type="button"
           :disabled="cart.isPlacingOrder"
           @click="cart.placeOrder()"
@@ -184,11 +184,11 @@ const { language, t } = useLanguage()
   margin-block: 0 16px;
 }
 .checkout-total strong:last-child {
-  color: var(--lbaldi-red);
+  color: var(--lbaldi-green);
   font-variant-numeric: tabular-nums;
 }
 .checkout a {
-  color: var(--lbaldi-red);
+  color: var(--lbaldi-green);
 }
 
 .order-error {

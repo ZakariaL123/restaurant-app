@@ -25,7 +25,7 @@ const opening = id + '-logo-opening'
           values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 1.75 0 0 -.4"
           result="ink"
         />
-        <feFlood flood-color="#fff1d5" />
+        <feFlood class="logo-ink" />
         <feComposite in2="ink" operator="in" />
       </filter>
       <mask :id="opening" maskUnits="userSpaceOnUse" x="106" y="95" width="386" height="350">
@@ -46,6 +46,10 @@ const opening = id + '-logo-opening'
 </template>
 
 <style scoped>
+.logo-ink {
+  flood-color: var(--lbaldi-cream);
+}
+
 svg {
   display: block;
   width: 100%;

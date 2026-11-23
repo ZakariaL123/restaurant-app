@@ -160,15 +160,15 @@ onMounted(loadOrders)
   min-width: 0;
   padding: 14px;
   border: 1px solid var(--edge);
-  border-block-start: 5px solid var(--lbaldi-red);
+  border-block-start: 5px solid var(--status-new-ink);
   border-radius: 12px;
   background: var(--paper-toned);
 }
 .order-column[data-status='working'] {
-  border-block-start-color: #ac680d;
+  border-block-start-color: var(--status-working-ink);
 }
 .order-column[data-status='done'] {
-  border-block-start-color: var(--lbaldi-green);
+  border-block-start-color: var(--status-done-ink);
 }
 .order-column h2 {
   display: flex;

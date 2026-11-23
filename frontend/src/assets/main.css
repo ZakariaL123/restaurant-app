@@ -32,27 +32,33 @@ body {
 }
 
 :root {
-  --lbaldi-red: #a7151c;
-  --lbaldi-red-deep: #791719;
+  --lbaldi-cream: #fff8eb;
   --lbaldi-green: #00532e;
-  --lbaldi-green-deep: #103d2b;
-  --lbaldi-green-hover: #003e23;
-  --lbaldi-cream: #fff1d5;
-  --lbaldi-gold: #f0c476;
-  --lbaldi-cream-line: rgb(255 241 213 / 19%);
+  --lbaldi-red: #a7151c;
+  --lbaldi-green-deep: color-mix(in srgb, var(--lbaldi-green) 76%, black);
+  --lbaldi-red-deep: color-mix(in srgb, var(--lbaldi-red) 80%, black);
+  --lbaldi-cream-line: color-mix(in srgb, var(--lbaldi-cream) 24%, transparent);
+  --on-green-muted: color-mix(in srgb, var(--lbaldi-cream) 84%, var(--lbaldi-green-deep));
   --lbaldi-heading: Georgia, 'Times New Roman', serif;
-  --ink: #19372a;
-  --paper: #fff8eb;
-  --paper-toned: #f5ead5;
-  --surface: #fffdf6;
-  --muted: #5c5142;
-  --edge: #dfd0b7;
-  --field-edge: #a99a81;
-  --disabled-surface: #eee2cb;
-  --disabled-ink: #675e50;
+  --ink: var(--lbaldi-green-deep);
+  --paper: var(--lbaldi-cream);
+  --paper-toned: color-mix(in srgb, var(--paper) 94%, var(--lbaldi-green));
+  --surface: color-mix(in srgb, var(--paper) 65%, white);
+  --muted: color-mix(in srgb, var(--ink) 78%, var(--paper));
+  --edge: color-mix(in srgb, var(--paper) 78%, var(--lbaldi-green));
+  --field-edge: color-mix(in srgb, var(--ink) 66%, var(--paper));
+  --disabled-surface: color-mix(in srgb, var(--paper) 86%, var(--lbaldi-green));
+  --disabled-ink: var(--muted);
+  --ink-dim: color-mix(in srgb, var(--lbaldi-green) 35%, black);
+
+  --status-new-surface: #f0f0f0;
+  --status-new-ink: #2f2f2f;
+  --status-working-surface: #fff1cf;
+  --status-working-ink: #654000;
+  --status-done-surface: #dcefe1;
+  --status-done-ink: #174b2a;
   --error: #8b1620;
   --error-surface: #f5e0d8;
-  --ink-dim: #322823;
   --photo-radius: 0.55rem;
   --shell-width: 78rem;
   --gutter: clamp(16px, 5vw, 64px);
@@ -63,8 +69,8 @@ html:lang(ar) {
 }
 
 ::selection {
-  background: var(--lbaldi-gold);
-  color: var(--ink);
+  background: var(--lbaldi-green);
+  color: var(--lbaldi-cream);
 }
 
 #app {
@@ -180,7 +186,7 @@ html[dir='rtl'] .page-title {
 }
 
 .button:hover:not(:disabled) {
-  background: var(--lbaldi-green-hover);
+  background: var(--lbaldi-green-deep);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -201,18 +207,34 @@ html[dir='rtl'] .page-title {
 }
 .button--outline {
   background: transparent;
-  border-color: var(--edge);
+  border-color: var(--field-edge);
   color: var(--ink);
 }
 .button--outline:hover:not(:disabled) {
   background: var(--paper-toned);
 }
-.button--cream {
-  background: var(--lbaldi-cream);
-  color: var(--lbaldi-green);
+.button--order {
+  border-color: var(--lbaldi-cream);
+  background: var(--lbaldi-red);
 }
-.button--cream:hover:not(:disabled) {
-  background: var(--lbaldi-gold);
+
+.button--order:hover:not(:disabled) {
+  background: var(--lbaldi-red-deep);
+}
+
+.cart-badge {
+  display: inline-grid;
+  min-inline-size: 1.55rem;
+  min-block-size: 1.55rem;
+  place-items: center;
+  padding-inline: 0.28rem;
+  border: 1px solid var(--lbaldi-cream);
+  border-radius: 999px;
+  background: var(--lbaldi-red);
+  color: var(--lbaldi-cream);
+  font-size: 0.8rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
 }
 
 .panel {
@@ -241,6 +263,11 @@ html[dir='rtl'] .page-title {
   font-size: 1rem;
 }
 
+.form-field::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+
 input[type='checkbox'] {
   accent-color: var(--lbaldi-green);
 }
@@ -248,6 +275,7 @@ input[type='checkbox'] {
 .muted {
   color: var(--muted);
 }
-.error-text {
+.error-text,
+main [role='alert'] {
   color: var(--error);
 }

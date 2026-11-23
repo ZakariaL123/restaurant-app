@@ -59,8 +59,13 @@ const languages = [
             >{{ t('ourStory') }}</a
           >
         </RouterLink>
-        <RouterLink to="/cart" class="nav-link" aria-live="polite">
-          {{ t('cart') }} ({{ cart.itemCount }})
+        <RouterLink
+          to="/cart"
+          class="nav-link cart-link"
+          :aria-label="`${t('cart')} (${cart.itemCount})`"
+          aria-live="polite"
+        >
+          {{ t('cart') }} <span class="cart-badge">{{ cart.itemCount }}</span>
         </RouterLink>
         <RouterLink :to="{ name: 'my-orders' }" class="nav-link">{{ t('myOrders') }}</RouterLink>
         <RouterLink v-if="isStaff" to="/staff/orders" class="nav-link">{{ t('staff') }}</RouterLink>
@@ -89,7 +94,9 @@ const languages = [
             {{ option.label }}
           </button>
         </div>
-        <RouterLink to="/menu" class="button order-link">{{ t('orderOnline') }}</RouterLink>
+        <RouterLink to="/menu" class="button button--order order-link">{{
+          t('orderOnline')
+        }}</RouterLink>
       </div>
 
       <p v-if="signOutFailed" class="header-notice" role="alert">{{ t('signOutError') }}</p>
@@ -99,7 +106,7 @@ const languages = [
 
 <style scoped>
 .site-header {
-  background: var(--lbaldi-red);
+  background: var(--lbaldi-green);
   color: var(--lbaldi-cream);
   border-block-end: 1px solid var(--lbaldi-cream-line);
 }
@@ -150,7 +157,7 @@ const languages = [
 .nav-link[aria-current] {
   text-decoration: underline;
   text-underline-offset: 0.34em;
-  text-decoration-color: var(--lbaldi-gold);
+  text-decoration-color: var(--lbaldi-cream);
   text-decoration-thickness: 2px;
 }
 
@@ -158,6 +165,10 @@ const languages = [
   background: transparent;
   border: 0;
   cursor: pointer;
+}
+
+.cart-link {
+  gap: 0.35rem;
 }
 
 .header-tools {
@@ -210,7 +221,7 @@ const languages = [
 
 .language-switcher button[aria-pressed='true'] {
   background: var(--lbaldi-cream);
-  color: var(--lbaldi-red-deep);
+  color: var(--lbaldi-green-deep);
 }
 
 @media (min-width: 75rem) {

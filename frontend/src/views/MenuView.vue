@@ -68,8 +68,12 @@ onUnmounted(() => {
         <h1 id="menu-title" class="page-title">{{ t('ourMenu') }}</h1>
         <p class="masthead-description">{{ t('menuIntro') }}</p>
       </div>
-      <RouterLink class="button" :to="{ name: 'cart' }">
-        {{ t('cart') }} ({{ cart.itemCount }})
+      <RouterLink
+        class="button"
+        :to="{ name: 'cart' }"
+        :aria-label="`${t('cart')} (${cart.itemCount})`"
+      >
+        {{ t('cart') }} <span class="cart-badge">{{ cart.itemCount }}</span>
       </RouterLink>
     </section>
 
@@ -114,7 +118,7 @@ onUnmounted(() => {
               <span v-if="!item.isAvailable" class="unavailable">{{ t('unavailable') }}</span>
               <button
                 v-else
-                class="button"
+                class="button button--order"
                 type="button"
                 :aria-label="`${t('add')} (${dishName(item.name, language)})`"
                 :disabled="cart.isPlacingOrder"
@@ -175,7 +179,7 @@ onUnmounted(() => {
   margin-inline: 0 0.5rem;
 }
 .menu-download {
-  color: var(--lbaldi-red);
+  color: var(--lbaldi-green);
   text-underline-offset: 0.2em;
 }
 
@@ -296,7 +300,7 @@ h2 {
 }
 
 .price {
-  color: var(--lbaldi-red);
+  color: var(--lbaldi-green);
   font-size: 1.05rem;
   font-variant-numeric: tabular-nums;
   font-weight: 750;

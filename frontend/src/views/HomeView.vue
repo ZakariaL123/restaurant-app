@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import LbaldiPhoto from '../components/LbaldiPhoto.vue'
 import { useLanguage } from '../i18n'
@@ -7,10 +8,12 @@ import { dishName } from '../utils/dishText'
 const { language, t } = useLanguage()
 
 const favourites = [
-  { frame: 'favouriteTagine', name: 'Chicken Tagine' },
-  { frame: 'favouriteCouscous', name: 'Vegetable Couscous' },
-  { frame: 'favouriteKefta', name: 'Kefta Tagine' },
+  { frame: 'tagine', name: 'Chicken Tagine' },
+  { frame: 'couscous', name: 'Vegetable Couscous' },
+  { frame: 'tea', name: 'Moroccan Mint Tea' },
 ] as const
+
+const featuredDish = ref<(typeof favourites)[number]>(favourites[0])
 </script>
 
 <template>
@@ -25,7 +28,7 @@ const favourites = [
           </h1>
           <p>{{ t('heroSubtitle') }}</p>
           <div class="hero-links">
-            <RouterLink class="button button--cream" :to="{ name: 'menu' }">
+            <RouterLink class="button button--order" :to="{ name: 'menu' }">
               {{ t('exploreMenu') }}
             </RouterLink>
             <RouterLink class="text-link" :to="{ name: 'home', hash: '#our-story' }">
@@ -33,29 +36,41 @@ const favourites = [
             </RouterLink>
           </div>
         </div>
-        <img
-          class="hero-photo"
-          src="/dishes/chicken-tagine.jpg"
-          :alt="dishName('Chicken Tagine', language)"
-          width="612"
-          height="612"
-          fetchpriority="high"
-        />
-      </div>
-    </section>
-
-    <section class="favourites" aria-labelledby="favourites-title">
-      <div class="page-width favourites-layout">
-        <div class="favourites-intro">
-          <h2 id="favourites-title">{{ t('houseFavourites') }}</h2>
-          <RouterLink class="text-link" :to="{ name: 'menu' }">{{ t('viewFullMenu') }}</RouterLink>
+        <div class="tasting-board">
+          <figure id="featured-dish" class="featured-dish">
+            <div class="plate-frame">
+              <div :key="featuredDish.frame" class="plate-image" aria-hidden="true">
+                <img
+                  v-if="featuredDish.frame === 'tagine'"
+                  class="hero-photo"
+                  src="/dishes/chicken-tagine.jpg"
+                  alt=""
+                  width="612"
+                  height="612"
+                  fetchpriority="high"
+                />
+                <LbaldiPhoto v-else :frame="featuredDish.frame" />
+              </div>
+            </div>
+            <figcaption class="plate-caption" aria-live="polite">
+              {{ dishName(featuredDish.name, language) }}
+            </figcaption>
+          </figure>
+          <div class="tasting-choices" role="group" :aria-label="t('houseFavourites')">
+            <button
+              v-for="dish in favourites"
+              :key="dish.frame"
+              type="button"
+              class="tasting-choice"
+              :aria-pressed="featuredDish.frame === dish.frame"
+              aria-controls="featured-dish"
+              @click="featuredDish = dish"
+            >
+              <span class="choice-image"><LbaldiPhoto :frame="dish.frame" /></span>
+              <span>{{ dishName(dish.name, language) }}</span>
+            </button>
+          </div>
         </div>
-        <ul class="favourites-grid">
-          <li v-for="dish in favourites" :key="dish.frame" class="favourite">
-            <div class="favourite-photo"><LbaldiPhoto :frame="dish.frame" /></div>
-            <p>{{ dishName(dish.name, language) }}</p>
-          </li>
-        </ul>
       </div>
     </section>
 
@@ -65,7 +80,7 @@ const favourites = [
         <div class="story-copy">
           <h2 id="story-title">{{ t('ourStory') }}</h2>
           <p>{{ t('storyText') }}</p>
-          <RouterLink class="text-link" :to="{ name: 'menu' }">{{ t('exploreMenu') }}</RouterLink>
+          <RouterLink class="text-link" :to="{ name: 'menu' }">{{ t('viewFullMenu') }}</RouterLink>
         </div>
       </div>
     </section>
@@ -83,8 +98,8 @@ const favourites = [
 }
 
 .hero {
-  background: var(--lbaldi-green-deep);
-  color: var(--lbaldi-cream);
+  background: var(--paper);
+  color: var(--ink);
 }
 
 .hero-intro {
@@ -140,29 +155,118 @@ h1:lang(ar) {
   gap: 0.6rem 1.5rem;
 }
 
-.hero :focus-visible {
-  outline-color: var(--lbaldi-cream);
+.tasting-board {
+  --plate-radius: 18% 18% 0.55rem 0.55rem / 14% 14% 0.55rem 0.55rem;
+  min-inline-size: 0;
 }
 
+.featured-dish {
+  position: relative;
+  isolation: isolate;
+  margin: 0 0 1.25rem;
+}
+
+.featured-dish::before {
+  position: absolute;
+  z-index: -1;
+  inset-block: 0.45rem -0.45rem;
+  inset-inline: 0.45rem -0.45rem;
+  border: 1px solid var(--edge);
+  border-radius: var(--plate-radius);
+  content: '';
+}
+
+.plate-frame {
+  aspect-ratio: 1.34;
+  overflow: clip;
+  border-radius: var(--plate-radius);
+  background: var(--ink);
+}
+
+.plate-image,
 .hero-photo {
   display: block;
   inline-size: 100%;
-  block-size: auto;
-  aspect-ratio: 1.06;
+  block-size: 100%;
+}
+
+.hero-photo {
   object-fit: cover;
-  border-radius: var(--photo-radius);
+  object-position: 50% 57%;
+}
+
+.plate-caption {
+  position: absolute;
+  inset-block-end: clamp(0.65rem, 2vw, 1.25rem);
+  inset-inline-start: clamp(0.65rem, 2vw, 1.25rem);
+  max-inline-size: calc(100% - 2rem);
+  padding: 0.55rem 0.8rem;
+  border-radius: 0.3rem;
+  background: var(--lbaldi-cream);
+  color: var(--lbaldi-green-deep);
+  font-family: var(--lbaldi-heading);
+  font-size: clamp(1rem, 1.8vw, 1.35rem);
+  font-weight: 700;
+}
+
+.tasting-choices {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.4rem, 1.25vw, 0.9rem);
+}
+
+.tasting-choice {
+  display: grid;
+  align-content: start;
+  gap: 0.4rem;
+  min-block-size: 44px;
+  min-inline-size: 0;
+  padding: 0.35rem;
+  border: 1px solid var(--field-edge);
+  border-radius: 0.48rem;
+  background: transparent;
+  color: inherit;
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.3;
+  text-align: start;
+  overflow-wrap: break-word;
+  cursor: pointer;
+}
+
+.tasting-choice:hover {
+  background: var(--paper-toned);
+}
+
+.tasting-choice[aria-pressed='true'] {
+  border-color: var(--lbaldi-green);
+  background: var(--lbaldi-green);
+  color: var(--lbaldi-cream);
+}
+
+.choice-image {
+  block-size: clamp(2rem, 4vw, 3.25rem);
+  overflow: clip;
+  border-radius: 0.25rem;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .hero-photo {
-    animation: plate-arrival 500ms ease-out both;
+  .plate-image {
+    animation: plate-reveal 360ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
   }
 }
 
-@keyframes plate-arrival {
+@keyframes plate-reveal {
   from {
-    opacity: 0.78;
-    transform: translateY(5px);
+    clip-path: inset(0 0 16%);
+    opacity: 0.62;
+    transform: scale(1.045);
+  }
+
+  to {
+    clip-path: inset(0);
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
@@ -173,19 +277,6 @@ h1:lang(ar) {
   color: inherit;
   font-weight: 700;
   text-underline-offset: 0.28em;
-}
-
-.favourites {
-  padding-block: clamp(2.8rem, 7vw, 6rem);
-}
-
-.favourites-intro {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 0.5rem 1.5rem;
-  margin-block-end: clamp(1.25rem, 3vw, 2rem);
 }
 
 h2 {
@@ -199,42 +290,19 @@ h2:lang(ar) {
   letter-spacing: normal;
 }
 
-.favourites .text-link {
-  color: var(--lbaldi-red);
-}
-
-.favourites-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(0.8rem, 2.5vw, 1.7rem);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.favourite-photo,
 .story-photo {
+  aspect-ratio: 1.5;
   overflow: clip;
   border-radius: var(--photo-radius);
   background: var(--lbaldi-green-deep);
-}
-
-.favourite-photo {
-  aspect-ratio: 1.7;
-}
-
-.favourite p {
-  margin-block: 0;
-  padding-block: 0.75rem;
-  border-block-end: 1px solid var(--edge);
-  font-weight: 700;
 }
 
 .story {
   scroll-margin-block-start: 1rem;
   padding-block: clamp(2.5rem, 6vw, 5rem);
   border-block-start: 1px solid var(--edge);
-  background: var(--paper-toned);
+  background: var(--lbaldi-green);
+  color: var(--lbaldi-cream);
 }
 
 .story-layout {
@@ -244,18 +312,14 @@ h2:lang(ar) {
   gap: clamp(1.5rem, 5vw, 5rem);
 }
 
-.story-photo {
-  aspect-ratio: 1.5;
-}
-
 .story-copy p {
   max-inline-size: 45ch;
   font-size: clamp(1rem, 1.8vw, 1.2rem);
   line-height: 1.7;
 }
 
-.story-copy .text-link {
-  color: var(--lbaldi-red);
+.story :focus-visible {
+  outline-color: var(--lbaldi-cream);
 }
 
 @media (max-width: 720px) {
@@ -277,31 +341,12 @@ h2:lang(ar) {
     font-size: clamp(2.35rem, 8.8vw, 4.4rem);
   }
 
-  .hero-photo {
-    aspect-ratio: 1.48;
+  .plate-frame {
+    aspect-ratio: 1.55;
   }
 
   .story-copy {
     grid-row: 1;
-  }
-}
-
-@media (max-width: 500px) {
-  .favourites-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .favourite {
-    display: grid;
-    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
-    align-items: center;
-    gap: 1rem;
-    border-block-end: 1px solid var(--edge);
-    padding-block-end: 0.8rem;
-  }
-
-  .favourite p {
-    border: 0;
   }
 }
 </style>
