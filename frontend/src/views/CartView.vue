@@ -14,10 +14,11 @@ const { language, t } = useLanguage()
   <main class="page-shell cart-page">
     <section class="page-masthead" aria-labelledby="cart-title">
       <div class="masthead-copy">
-        <p class="page-kicker">{{ t('brand') }}</p>
         <h1 id="cart-title" class="page-title">{{ t('yourCart') }}</h1>
       </div>
-      <RouterLink class="button button--cream" :to="{ name: 'menu' }">{{ t('browse') }}</RouterLink>
+      <RouterLink class="button button--outline" :to="{ name: 'menu' }">{{
+        t('browse')
+      }}</RouterLink>
     </section>
 
     <div v-if="cart.orderReceipt" class="order-receipt panel" role="status">
@@ -151,13 +152,17 @@ const { language, t } = useLanguage()
 }
 
 .quantity-controls button {
-  min-width: 40px;
+  min-inline-size: 44px;
   padding-inline: 0.45rem;
 }
 
 .checkout,
 .order-receipt {
   padding: clamp(18px, 3vw, 28px);
+}
+
+.checkout {
+  background: var(--paper-toned);
 }
 
 .checkout .button {
@@ -180,13 +185,14 @@ const { language, t } = useLanguage()
 }
 .checkout-total strong:last-child {
   color: var(--lbaldi-red);
+  font-variant-numeric: tabular-nums;
 }
 .checkout a {
   color: var(--lbaldi-red);
 }
 
 .order-error {
-  color: #8b1620;
+  color: var(--error);
 }
 @media (max-width: 760px) {
   .cart-layout {

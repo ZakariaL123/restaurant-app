@@ -35,13 +35,13 @@ const { t } = useLanguage()
 
 <style scoped>
 .site-footer {
-  background: #063c28;
+  background: var(--lbaldi-green-deep);
   color: var(--lbaldi-cream);
 }
 .footer-inner {
   width: min(calc(100% - 2 * var(--gutter)), var(--shell-width));
   margin-inline: auto;
-  padding-block: clamp(24px, 4vw, 46px);
+  padding-block: clamp(24px, 4vw, 48px);
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto auto;
   align-items: center;
@@ -63,14 +63,14 @@ const { t } = useLanguage()
 }
 .footer-brand .footer-credit {
   margin-block-start: 6px;
-  color: #efdab0;
+  color: var(--lbaldi-gold);
   font-size: 0.82rem;
   font-weight: 500;
 }
 nav {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px 18px;
+  gap: 12px 20px;
   font-weight: 700;
 }
 a:not(.button) {
@@ -79,12 +79,11 @@ a:not(.button) {
 }
 .footer-band {
   padding: 12px var(--gutter);
-  background: #052e20;
-  color: #efdab0;
-  font-size: 0.78rem;
-  font-weight: 850;
+  border-block-start: 1px solid var(--lbaldi-green);
+  color: var(--lbaldi-gold);
+  font-size: 0.875rem;
+  font-weight: 650;
   text-align: center;
-  text-transform: uppercase;
 }
 .footer-band p {
   margin: 0;

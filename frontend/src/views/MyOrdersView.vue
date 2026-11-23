@@ -67,10 +67,9 @@ onUnmounted(() => {
   <main class="page-shell my-orders">
     <section class="page-masthead" aria-labelledby="my-orders-title">
       <div class="masthead-copy">
-        <p class="page-kicker">{{ t('brand') }}</p>
         <h1 id="my-orders-title" class="page-title">{{ t('myOrders') }}</h1>
       </div>
-      <button class="button button--cream" type="button" :disabled="loading" @click="loadOrders">
+      <button class="button button--outline" type="button" :disabled="loading" @click="loadOrders">
         {{ t('refresh') }}
       </button>
     </section>

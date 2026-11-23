@@ -87,11 +87,10 @@ onMounted(loadOrders)
   <main v-if="isStaff" class="page-shell staff-page">
     <section class="page-masthead" aria-labelledby="staff-title">
       <div class="masthead-copy">
-        <p class="page-kicker">{{ t('brand') }}</p>
         <h1 id="staff-title" class="page-title">{{ t('staff') }}</h1>
       </div>
       <button
-        class="button button--cream"
+        class="button button--outline"
         type="button"
         :disabled="loading || savingOrders.size > 0"
         @click="loadOrders"
@@ -163,7 +162,7 @@ onMounted(loadOrders)
   border: 1px solid var(--edge);
   border-block-start: 5px solid var(--lbaldi-red);
   border-radius: 12px;
-  background: #f6ebd7;
+  background: var(--paper-toned);
 }
 .order-column[data-status='working'] {
   border-block-start-color: #ac680d;

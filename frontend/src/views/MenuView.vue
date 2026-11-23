@@ -65,11 +65,10 @@ onUnmounted(() => {
   <main class="page-shell menu-page">
     <section class="page-masthead" aria-labelledby="menu-title">
       <div class="masthead-copy">
-        <p class="page-kicker">{{ t('brand') }}</p>
         <h1 id="menu-title" class="page-title">{{ t('ourMenu') }}</h1>
         <p class="masthead-description">{{ t('menuIntro') }}</p>
       </div>
-      <RouterLink class="button button--cream" :to="{ name: 'cart' }">
+      <RouterLink class="button" :to="{ name: 'cart' }">
         {{ t('cart') }} ({{ cart.itemCount }})
       </RouterLink>
     </section>
@@ -91,7 +90,12 @@ onUnmounted(() => {
       <p v-if="visibleItems.length === 0" class="panel panel-empty">{{ t('noDishes') }}</p>
 
       <div v-else class="menu-grid">
-        <article v-for="item in visibleItems" :key="item.id" class="menu-card panel">
+        <article
+          v-for="item in visibleItems"
+          :key="item.id"
+          class="menu-card"
+          :class="{ 'menu-card--with-photo': item.imageUrl }"
+        >
           <button
             v-if="item.imageUrl"
             class="dish-photo-button"
@@ -102,7 +106,6 @@ onUnmounted(() => {
           >
             <img class="dish-photo" :src="item.imageUrl" alt="" loading="lazy" />
           </button>
-          <div v-else class="dish-placeholder" aria-hidden="true"><span>LBALDI</span></div>
           <div class="menu-card-body">
             <h2>{{ dishName(item.name, language) }}</h2>
             <p class="muted">{{ dishDescription(item.name, item.description, language) }}</p>
@@ -155,11 +158,21 @@ onUnmounted(() => {
 }
 
 .menu-toolbar {
-  padding: 14px 18px;
+  padding: 0.35rem 1rem;
   font-weight: 650;
 }
+
+.menu-toolbar label,
+.menu-download {
+  display: inline-flex;
+  min-block-size: 44px;
+  align-items: center;
+}
+
 .menu-toolbar input {
-  margin-inline-end: 4px;
+  inline-size: 1rem;
+  block-size: 1rem;
+  margin-inline: 0 0.5rem;
 }
 .menu-download {
   color: var(--lbaldi-red);
@@ -168,22 +181,30 @@ onUnmounted(() => {
 
 .menu-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(12px, 2.3vw, 24px);
-  margin-top: 24px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: clamp(1.25rem, 4vw, 3.2rem);
+  margin-block: 1.5rem;
+  border-block-end: 1px solid var(--edge);
 }
 
 .menu-card {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
   min-inline-size: 0;
+  padding-block: 1.4rem;
+  border-block-start: 1px solid var(--edge);
+}
+
+.menu-card--with-photo {
+  grid-template-columns: minmax(5rem, 0.44fr) minmax(0, 1fr);
+  gap: clamp(0.7rem, 2vw, 1.3rem);
 }
 
 .menu-card-body {
   display: flex;
-  flex: 1;
   flex-direction: column;
-  padding: clamp(14px, 2vw, 23px);
+  align-self: stretch;
   overflow-wrap: anywhere;
 }
 .menu-card-body p {
@@ -199,36 +220,32 @@ onUnmounted(() => {
   width: 100%;
   padding: 0;
   border: 0;
-  border-radius: 11px 11px 0 0;
+  border-radius: var(--photo-radius);
   background: transparent;
   overflow: hidden;
   cursor: zoom-in;
 }
 
 .dish-photo-button:focus-visible {
-  outline: 3px solid #803c26;
+  outline: 3px solid var(--lbaldi-red);
   outline-offset: 2px;
 }
 
-.dish-photo,
-.dish-placeholder {
+.dish-photo {
   display: block;
   width: 100%;
-  aspect-ratio: 1.55;
+  aspect-ratio: 1;
   object-fit: cover;
 }
 
-.dish-placeholder {
-  display: grid;
-  place-items: center;
-  border-radius: 11px 11px 0 0;
-  background:
-    repeating-radial-gradient(ellipse at 50% 125%, #164d34 0 2px, transparent 3px 17px), #0a3e2a;
-  color: #e8cc94;
-  font-family: var(--lbaldi-heading);
-  font-size: clamp(1.1rem, 3vw, 2rem);
-  font-weight: 950;
-  letter-spacing: 0.12em;
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .dish-photo {
+    transition: transform 190ms ease-out;
+  }
+
+  .dish-photo-button:hover .dish-photo {
+    transform: scale(1.035);
+  }
 }
 
 .photo-dialog {
@@ -241,7 +258,7 @@ onUnmounted(() => {
   margin: 0;
   padding: 4rem 1rem 1rem;
   border: 0;
-  background: #161311;
+  background: var(--ink-dim);
 }
 
 .photo-dialog img {
@@ -260,46 +277,53 @@ onUnmounted(() => {
   padding: 0;
   border: 0;
   border-radius: 50%;
-  background: #fff;
-  color: #161311;
+  background: var(--lbaldi-cream);
+  color: var(--ink-dim);
   font-size: 1.75rem;
   cursor: pointer;
 }
 
 .photo-close:focus-visible {
-  outline: 2px solid #fff;
+  outline: 2px solid var(--lbaldi-cream);
   outline-offset: 3px;
 }
 
 h2 {
   margin: 0 0 7px;
-  font-size: clamp(1.16rem, 2vw, 1.5rem);
+  font-family: var(--lbaldi-heading);
+  font-size: clamp(1.35rem, 2.3vw, 1.8rem);
   line-height: 1.2;
 }
 
 .price {
   color: var(--lbaldi-red);
   font-size: 1.05rem;
-  font-weight: 850;
+  font-variant-numeric: tabular-nums;
+  font-weight: 750;
 }
 
 .unavailable {
   border-radius: 999px;
   padding: 5px 9px;
-  background: #f5e0d8;
-  color: #821d28;
-  font-size: 0.78rem;
+  background: var(--error-surface);
+  color: var(--error);
+  font-size: 0.85rem;
   font-weight: 750;
 }
 
-@media (max-width: 850px) {
-  .menu-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-@media (max-width: 520px) {
+@media (max-width: 700px) {
   .menu-grid {
     grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 360px) {
+  .menu-card--with-photo {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .dish-photo {
+    aspect-ratio: 1.7;
   }
 }
 </style>

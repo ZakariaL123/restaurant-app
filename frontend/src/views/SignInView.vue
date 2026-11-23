@@ -118,7 +118,6 @@ async function acceptInvite() {
 <template>
   <main class="page-shell login-page">
     <div class="panel login-card">
-      <p class="page-kicker">{{ t('brand') }}</p>
       <h1 class="page-title">{{ t('login') }}</h1>
       <p v-if="!auth" role="status">{{ t('authMissing') }}</p>
       <template v-else>
